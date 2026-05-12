@@ -78,4 +78,4 @@ replace github.com/multiversx/mx-chain-es-indexer-go => github.com/mangonui/mx-c
 
 replace github.com/multiversx/mx-chain-proxy-go => github.com/mangonui/mx-chain-proxy-go v0.0.0-20260512154528-67a2d4e1802a
 
-replace github.com/multiversx/mx-chain-go => github.com/mangonui/mx-chain-go v0.0.0-20260512054937-57f4dadcc488
+replace github.com/multiversx/mx-chain-go => github.com/mangonui/mx-chain-go v0.0.0-20260512181101-799b28cc7c2e
