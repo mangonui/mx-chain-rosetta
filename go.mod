@@ -62,7 +62,7 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace github.com/multiversx/mx-chain-core-go => github.com/mangonui/mx-chain-core-go v0.0.0-20260511065402-576e93c1a0dc
+replace github.com/multiversx/mx-chain-core-go => github.com/mangonui/mx-chain-core-go v0.0.0-20260512153159-d696dc43bf6d
 
 replace github.com/multiversx/mx-chain-logger-go => github.com/mangonui/mx-chain-logger-go v0.0.0-20260512025801-4b00900c17b0
 
@@ -74,8 +74,8 @@ replace github.com/multiversx/mx-chain-vm-common-go => github.com/mangonui/mx-ch
 
 replace github.com/multiversx/mx-chain-communication-go => github.com/mangonui/mx-chain-communication-go v0.0.0-20260512030057-b95319c37739
 
-replace github.com/multiversx/mx-chain-es-indexer-go => github.com/mangonui/mx-chain-es-indexer-go v0.0.0-20260512030111-3c4acd56efcd
+replace github.com/multiversx/mx-chain-es-indexer-go => github.com/mangonui/mx-chain-es-indexer-go v0.0.0-20260512154259-fed32aa38c74
 
-replace github.com/multiversx/mx-chain-proxy-go => github.com/mangonui/mx-chain-proxy-go v0.0.0-20260512042348-35a8401ff816
+replace github.com/multiversx/mx-chain-proxy-go => github.com/mangonui/mx-chain-proxy-go v0.0.0-20260512154528-67a2d4e1802a
 
 replace github.com/multiversx/mx-chain-go => github.com/mangonui/mx-chain-go v0.0.0-20260512054937-57f4dadcc488
