@@ -128,16 +128,56 @@ func startRosetta(ctx *cli.Context) error {
 	return nil
 }
 
+// ISSUE-038: cap on Rosetta request body. Construction / network
+// payloads are JSON, typically a few KiB. 4 MiB is well above any
+// legitimate Rosetta request and prevents an attacker from streaming a
+// multi-GiB body into the SDK's json.Decode/Unmarshal paths
+// (server/services/constructionService.go and friends do unbounded
+// json.Unmarshal — see ISSUE-038 / ISSUE-031 caller chain).
+const maxRosettaRequestBodyBytes int64 = 4 * 1024 * 1024
+
+// limitRosettaRequestBody wraps the Rosetta handler chain with an early
+// ContentLength check + MaxBytesReader so the SDK's downstream
+// json.Decode never sees more than maxRosettaRequestBodyBytes from any
+// single request. Sits in front of CORS so a malicious oversized body
+// is rejected before it pays for CORS preflight handling.
+func limitRosettaRequestBody(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.ContentLength > maxRosettaRequestBodyBytes {
+			http.Error(w, "request body too large", http.StatusRequestEntityTooLarge)
+			return
+		}
+		if r.Body != nil {
+			r.Body = http.MaxBytesReader(w, r.Body, maxRosettaRequestBodyBytes)
+		}
+		next.ServeHTTP(w, r)
+	})
+}
+
 func createHttpServer(port int, routers ...server.Router) (*http.Server, error) {
 	router := server.NewRouter(
 		routers...,
 	)
 
 	corsRouter := server.CorsMiddleware(router)
+	limitedRouter := limitRosettaRequestBody(corsRouter)
 
+	// ISSUE-039: previously this http.Server had NO timeouts at all,
+	// leaving Rosetta exposed to slow-loris and slow-write resource
+	// exhaustion. Values match the other services in this stack (chain-go
+	// gin webServer / notifier / es-indexer): WriteTimeout is the most
+	// generous (60s) to accommodate large Rosetta block/construction
+	// responses; the others bound slow-read vectors.
+	//
+	// ISSUE-038: limitedRouter wraps corsRouter with a body-size cap
+	// applied BEFORE the SDK route handlers reach json.Decode.
 	httpServer := &http.Server{
-		Addr:    fmt.Sprintf(":%d", port),
-		Handler: corsRouter,
+		Addr:              fmt.Sprintf(":%d", port),
+		Handler:           limitedRouter,
+		ReadHeaderTimeout: 5 * time.Second,
+		ReadTimeout:       30 * time.Second,
+		WriteTimeout:      60 * time.Second,
+		IdleTimeout:       120 * time.Second,
 	}
 
 	return httpServer, nil
