@@ -74,10 +74,10 @@ replace github.com/multiversx/mx-chain-vm-common-go => github.com/mangonui/mx-ch
 
 replace github.com/multiversx/mx-chain-communication-go => github.com/mangonui/mx-chain-communication-go v0.0.0-20260514041114-09dd41ef476e
 
-replace github.com/multiversx/mx-chain-es-indexer-go => github.com/mangonui/mx-chain-es-indexer-go v0.0.0-20260521053219-36d761d6455b
+replace github.com/multiversx/mx-chain-es-indexer-go => github.com/mangonui/mx-chain-es-indexer-go v0.0.0-20260521054111-6d312e93ce19
 
-replace github.com/multiversx/mx-chain-proxy-go => github.com/mangonui/mx-chain-proxy-go v0.0.0-20260521053554-0f44d9ca882f
+replace github.com/multiversx/mx-chain-proxy-go => github.com/mangonui/mx-chain-proxy-go v0.0.0-20260521054522-bc31dd7c9e33
 
-replace github.com/multiversx/mx-chain-go => github.com/mangonui/mx-chain-go v0.0.0-20260521053348-4239ca3f4078
+replace github.com/multiversx/mx-chain-go => github.com/mangonui/mx-chain-go v0.0.0-20260521054523-8b1901b18b47
 
 replace github.com/herumi/bls-go-binary => github.com/mangonui/bls-go-binary v0.0.0-20250924002409-446538da6433
